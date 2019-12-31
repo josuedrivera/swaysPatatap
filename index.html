@@ -30,24 +30,79 @@
 		<i class="fa fa-plus"></i>
 		Sway's Patatap
 	</h1>
-
+	<canvas id="myCanvas" resize></canvas>
 
 	
 	</div>
 <!-- SCRIPTS -->
-	<!-- link to locally hosted jQuery files -->
+	<!-- Load the Paper.js library -->
+		<script type="text/javascript" src="js/paper-full.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.js"></script>
+	<!-- Define inlined PaperScript associate it with myCanvas -->
+		<!-- <script type="text/paperscript" canvas="myCanvas">
+			// Create a Paper.js Path to draw a line into it:
+			var path = new Path();
+			// Give the stroke a color
+			path.strokeColor = 'black';
+			var start = new Point(100, 100);
+			// Move to start and draw a line from there
+			path.moveTo(start);
+			// Note the plus operator on Point objects.
+			// PaperScript does that for us, and much more!
+			path.lineTo(start + [ 100, -50 ]);
+		</script> -->
+		<!-- link to locally hosted jQuery files -->
 		<!-- <script type="text/javascript" src="assets/js/lib/jquery-3.4.1.min.js"></script> -->
-	<!-- jQuery link to slim 3.4.1 CDN -->
+		<!-- jQuery link to slim 3.4.1 CDN -->
 		<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
-	<!-- jQuery Popper scritp -->
+		<!-- jQuery Popper scritp -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-	<!-- Bootstrap script -->
+		<!-- Bootstrap script -->
 		<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
-	<!-- Vue JS CDN script -->
+		<!-- Vue JS CDN script -->
 		<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
-	<!-- Vue Router CDN script -->
+		<!-- Vue Router CDN script -->
 		<!-- <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script> -->
-	<!-- custom JS script -->
+		<!-- custom JS script -->
+		<script type="text/paperscript" canvas="myCanvas">
+			var circles = [];
+
+			function onKeyDown(event) {
+				if(keyData[event.key]) {
+					var maxPoint = new Point(view.size.width, view.size.height);
+					var randomPoint = Point.random();
+					var point = maxPoint * randomPoint;
+					var newCircle = new Path.Circle(point, 500);
+					newCircle.fillColor = keyData[event.key].color;
+					keyData[event.key].sound.play();
+					circles.push(newCircle);
+				} //can i add an else here for non-letter keypresses???
+			}
+
+			function onFrame(event) {
+				for(var i = 0; i < circles.length; i++) {
+					circles[i].fillColor.hue += 1;
+					circles[i].scale(.9);
+					if(circles[i].area < 1) {
+						circles[i].remove(); 
+						circles.splice(i, 1);
+						console.log(circles);
+					}
+				}
+			}
+
+		</script>
+		
 		<script type="text/javascript" src="js/main.js"></script>
-</body>
-</html>
+	</body>
+	</html>
+	
+	
+
+
+
+
+
+
+
+	
